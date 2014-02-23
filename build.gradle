@@ -1,0 +1,52 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+
+version = '0.1-SNAPSHOT'
+
+def GROUP_ID = 'net.bvargo.airplay'
+def ARTIFACT = 'airplay'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group:"javax.jmdns", name: "jmdns", version: "3.4.1"
+}
+
+// compiler options
+compileJava.options.compilerArgs = [ '-Xlint:unchecked', '-Xlint:deprecation' ]
+
+task uberjar(type: Jar, dependsOn: build) {
+    // base name of the jar file
+    baseName = ARTIFACT + "-all"
+
+    // main class for running the jar
+    manifest { attributes "Main-Class": "net.bvargo.airplay.Main" }
+
+    // from all exploded jar files
+    configurations.runtime.each { file ->
+        if(file.isFile() && file.name.endsWith(".jar")) {
+            from zipTree(file)
+        }
+    }
+
+    // add all non-jar runtime dependencies
+    configurations.runtime.each { file ->
+        if(file.isDirectory()) {
+            from file
+        }
+    }
+
+    // add the output directory
+    from new File("$buildDir/output")
+
+    // include the source files
+    configurations.archives.artifacts*.file.each { file ->
+        from zipTree(file)
+    }
+}
+
+test {
+    jvmArgs '-agentlib:hprof=cpu=samples,interval=2,depth=30,thread=y,file=build/profile.hprof'
+}
