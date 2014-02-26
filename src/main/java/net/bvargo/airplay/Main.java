@@ -53,6 +53,11 @@ public class Main {
             AirPlay airplay;
             if(host == null && name.isEmpty()) {
                 List<AirPlay> airplays = findAirPlays();
+                if(airplays.isEmpty()) {
+                    System.out.println("No AirPlay devices found.");
+                    System.exit(1);
+                }
+
                 System.out.println("Please select an AirPlay:");
                 System.out.println(listAirPlays(airplays));
                 System.out.print("Number: ");

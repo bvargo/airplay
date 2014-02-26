@@ -25,9 +25,11 @@ public class AirPlayFinder {
 		for(int i = 0; i < services.length; i++) {
 			ServiceInfo service = services[i];
 			Inet4Address[] addresses = service.getInet4Addresses();
-			airplays.add(new AirPlay(service.getName(),
-                        addresses[0].getHostAddress(),
-                        service.getPort()));
+            if(addresses.length >= 1) {
+                airplays.add(new AirPlay(service.getName(),
+                            addresses[0].getHostAddress(),
+                            service.getPort()));
+            }
 		}
 		jmdns.close();
 		return airplays;
