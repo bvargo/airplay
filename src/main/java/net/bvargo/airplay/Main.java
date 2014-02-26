@@ -12,8 +12,8 @@ import java.util.List;
 public class Main {
     private static final int TIMEOUT = 2000;
 
-	public static void main(String[] args) {
-		try {
+    public static void main(String[] args) {
+        try {
             StringBuilder nameBuilder = new StringBuilder();
             String host = null;
             String imagePath = null;
@@ -119,7 +119,7 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
-	}
+    }
 
     private static List<AirPlay> findAirPlays() throws IOException {
         AirPlayFinder finder = new AirPlayFinder();

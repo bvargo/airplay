@@ -81,31 +81,31 @@ public class AirPlay implements Comparable<AirPlay> {
 
     public void showImage(File imageFile, Transition transition)
             throws IOException {
-		BufferedImage image = ImageIO.read(imageFile);
-		this.showImage(image, transition);
+        BufferedImage image = ImageIO.read(imageFile);
+        this.showImage(image, transition);
     }
 
-	public void showImage(BufferedImage image, Transition transition)
+    public void showImage(BufferedImage image, Transition transition)
             throws IOException {
-		//BufferedImage scaled = new ImageScaler().scaleImage(image,
+        //BufferedImage scaled = new ImageScaler().scaleImage(image,
         //        this.airplayWidth,
         //        this.airplayHeight);
         this.sendImage(image, transition);
-	}
+    }
 
     /**
      * Sends the given image with the given transition to the Apple TV.
      */
     private void sendImage(BufferedImage image, Transition transition) throws IOException {
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("X-Apple-Transition", transition.getName());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("X-Apple-Transition", transition.getName());
 
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		boolean written = ImageIO.write(image, "png", os);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        boolean written = ImageIO.write(image, "png", os);
         if(!written)
             throw new UnsupportedOperationException("Cannot write image type. No writer found.");
 
-		this.http("PUT", "/photo", os, headers);
+        this.http("PUT", "/photo", os, headers);
     }
 
     /**
@@ -115,9 +115,9 @@ public class AirPlay implements Comparable<AirPlay> {
      * updated.
      */
     public void showDesktop(int interval) {
-		this.stopDesktopPoster();
-		this.desktopPoster = new DesktopPoster(this, interval);
-		this.desktopPoster.start();
+        this.stopDesktopPoster();
+        this.desktopPoster = new DesktopPoster(this, interval);
+        this.desktopPoster.start();
     }
 
     /**
@@ -138,42 +138,42 @@ public class AirPlay implements Comparable<AirPlay> {
         this.http(method, path, null, headers);
     }
 
-	private String http(String method,
+    private String http(String method,
             String path,
             ByteArrayOutputStream os,
             Map<String, String> headers)
             throws IOException {
-		URL url = null;
-		try {
-			url = new URL("http://" + this.host + ":" + this.port + path);
-		}
+        URL url = null;
+        try {
+            url = new URL("http://" + this.host + ":" + this.port + path);
+        }
         catch(MalformedURLException e) {
             throw new IllegalArgumentException("Bad URL.", e);
         }
 
-		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-		conn.setUseCaches(false);
-		conn.setDoOutput(true);
-		conn.setRequestMethod(method);
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        conn.setUseCaches(false);
+        conn.setDoOutput(true);
+        conn.setRequestMethod(method);
 
         conn.setRequestProperty("User-Agent", "MediaControl/1.0");
-		if(headers.size() > 0) {
+        if(headers.size() > 0) {
             for(Map.Entry<String, String> entry : headers.entrySet())
                 conn.setRequestProperty(entry.getKey(), entry.getValue());
-		}
+        }
 
-		if (os != null) {
-			byte[] data = os.toByteArray();
-			conn.setRequestProperty("Content-Length", "" + data.length);
-		}
+        if (os != null) {
+            byte[] data = os.toByteArray();
+            conn.setRequestProperty("Content-Length", "" + data.length);
+        }
 
-		conn.connect();
+        conn.connect();
 
-		if(os != null) {
-			os.writeTo(conn.getOutputStream());
-			os.flush();
-			os.close();
-		}
+        if(os != null) {
+            os.writeTo(conn.getOutputStream());
+            os.flush();
+            os.close();
+        }
 
         InputStream is = conn.getInputStream();
         BufferedReader input = new BufferedReader(new InputStreamReader(is));
@@ -185,7 +185,7 @@ public class AirPlay implements Comparable<AirPlay> {
         }
         input.close();
         return response.toString();
-	}
+    }
 
     @Override
     public int compareTo(AirPlay other) {

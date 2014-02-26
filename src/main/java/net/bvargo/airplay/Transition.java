@@ -4,7 +4,7 @@ package net.bvargo.airplay;
  * Various transitions for images on an AirPlay.
  */
 public enum Transition {
-	NONE("None"),
+    NONE("None"),
     SLIDE_LEFT("SlideLeft"),
     SLIDE_RIGHT("SlideRight"),
     DISSOLVE("Dissolve");

@@ -51,10 +51,10 @@ class DesktopPoster extends Thread {
      *
      * @return null if a screenshot could not be taken.
      */
-	private BufferedImage captureScreen() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension dim = tk.getScreenSize();
-		Rectangle rect = new Rectangle(dim);
+    private BufferedImage captureScreen() {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension dim = tk.getScreenSize();
+        Rectangle rect = new Rectangle(dim);
         Robot robot = null;
 
         try {
@@ -75,6 +75,6 @@ class DesktopPoster extends Thread {
         g.fillOval(x - RADIUS, y - RADIUS, RADIUS * 2, RADIUS * 2);
         g.dispose();
 
-		return image;
-	}
+        return image;
+    }
 }

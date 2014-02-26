@@ -12,13 +12,13 @@ class ImageScaler {
      * ratio. If the image is already smaller than the desired size, then
      * nothing happens, and the input image is returned.
      */
-	public BufferedImage scaleImage(BufferedImage image, int width, int height) {
-		int inputWidth = image.getWidth();
-		int inputHeight = image.getHeight();
+    public BufferedImage scaleImage(BufferedImage image, int width, int height) {
+        int inputWidth = image.getWidth();
+        int inputHeight = image.getHeight();
 
         // no modifications if the image is already smaller
-		if(inputWidth <= width && inputHeight <= height)
-			return image;
+        if(inputWidth <= width && inputHeight <= height)
+            return image;
 
         // compute scaled width / height
         double outputAspectRatio = (double)width/height;
@@ -42,5 +42,5 @@ class ImageScaler {
         g.drawImage(image, 0, 0, scaledWidth, scaledHeight, null);
         g.dispose();
         return scaledImage;
-	}
+    }
 }
